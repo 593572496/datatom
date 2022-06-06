@@ -6,7 +6,8 @@ from django.conf import settings
 def render_json(data, code=0):
     result = {
         'code': code,
-        'data': data
+        'data': data,
+
     }
     if settings.DEBUG:
         json_str = json.dumps(result, ensure_ascii=False, indent=4, sort_keys=True)

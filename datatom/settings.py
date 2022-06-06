@@ -46,6 +46,7 @@ MIDDLEWARE = [
     # 'django.contrib.auth.middleware.AuthenticationMiddleware',
     # 'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.middleware.CookieMiddleware'
 ]
 
 ROOT_URLCONF = 'datatom.urls'
@@ -124,7 +125,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-##################################################################### 自定义配置
+# 》》》》》》》》》》》》》》》》》》》》》》》自定义配置
 # 媒体文件目录
 MEDIA = 'media/'
 # 配置默认的cache为redis的0号数据库，seesion的redis为redis的1号数据库
@@ -138,6 +139,72 @@ CACHES = {
         'LOCATION': 'redis://192.168.1.12:6379/1'
     }
 }
+# redis数据库的分配
+"""0-默认数据库，1-session,2-celery.worker,3-celery.result"""
 # 配置session缓存到redis
 SESSION_CACHE_ALIAS = 'SESSION'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_COOKIE_AGE = 60 * 60 * 24  # redis中保存的时间
+# 配置邮件发送
+EMAIL_HOST_USER = 'wan.li@datatom.com'
+EMAIL_HOST_PASSWORD = '147896325wanLI'
+DEFAULT_FROM_EMAIL = 'wan.li@datatom.com'
+EMAIL_HOST = 'smtp.exmail.qq.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+# 日志配置
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    # 格式配置
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(module)s.%(funcName)s:%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+        'verbose': {
+            'format': ('%(asctime)s %(levelname)s [%(process)d-%(threadName)s]'
+                       '%(module)s.%(funcName)s line %(lineno)d--%(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    # 日志处理器
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'DEBUG' if DEBUG else 'WARNING'
+        },
+        'info': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': f'{BASE_DIR}/logs/info.log',
+            'when': 'D',  # 每天切割
+            'backupCount': 30,  # 日志保留30天
+            'formatter': 'simple',
+            'level': 'INFO'
+        },
+        'error': {
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': f'{BASE_DIR}/logs/error.log',
+            'when': 'W0',  # 每周一切割
+            'backupCount': 4,  # 日志保留4周
+            'formatter': 'verbose',
+            'level': 'WARNING'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+        },
+        'inf': {
+            'handlers': ['info'],
+            'propagate': True,
+            'level': 'INFO'
+
+        },
+        'err': {
+            'handlers': ['error'],
+            'propagate': True,
+            'level': 'WARNING'
+        },
+    },
+}

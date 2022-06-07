@@ -32,3 +32,9 @@ QUERY_USER_DONT_EXIST = 60003  # 查询的用户不存在
 
 # 修改用户密码
 CHECK_OLD_PASSWORD_FAILED = 60004  # 修改密码时验证旧密码失败
+
+# patch
+PATCH_CHECK_POWER_ERROR = 70000  # 删除，修改，上传补丁时权限出错
+UPLOAD_PATCH_IS_NONE = 70001  # 上传的补丁文件为空
+UPLOAD_PATCH_TYPE_ERROR = 70002  # 上传的格式不正确
+CREATE_NEW_PATCH_ERROR = 70003  # 保存新的patch到数据库失败

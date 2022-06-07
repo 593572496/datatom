@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     # 'django.contrib.sessions',
     # 'django.contrib.messages',
     # 'django.contrib.staticfiles',
-    'user'
+    'user',
+    'patch'
 ]
 
 MIDDLEWARE = [
@@ -85,6 +86,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'node02-db.sqlite3',
     },
+    'patch': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'node03-db.sqlite3',
+    }
 }
 
 # Password validation

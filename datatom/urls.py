@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from user import urls as user_urls
+from patch import urls as patch_urls
 
 urlpatterns = [
-    path('user/', include(user_urls, namespace='user'))
+    path('user/', include(user_urls, namespace='user')),
+    path('patch/', include(patch_urls, namespace='patch'))
 ]

@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 .idea/
 *.sqlite3
+logs/
+media/
